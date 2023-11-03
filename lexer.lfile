@@ -1,0 +1,30 @@
+%{
+#include <iostream>
+#include <cstring>
+#include "y.tab.h"
+using namespace std;
+
+extern YYSTYPE yylval; // Declare yylval here
+%}
+
+token VAR EQUAL PLUS MINUS MULTIPLY DIVIDE OPEN_PAREN CLOSE_PAREN NEWLINE NUMBER IDENTIFIER
+
+%%
+
+"var"       { return VAR; }
+"="         { return EQUAL; }
+"+"         { return PLUS; }
+"-"         { return MINUS; }
+"*"         { return MULTIPLY; }
+"/"         { return DIVIDE; }
+"("         { return OPEN_PAREN; }
+")"         { return CLOSE_PAREN; }
+"\n"        { return NEWLINE; }
+[0-9]+      { yylval.num = stoi(yytext); return NUMBER; }
+[a-zA-Z][a-zA-Z0-9]* { strcpy(yylval.str, yytext); return IDENTIFIER; }
+
+%%
+
+int yywrap() {
+    return 1;
+}
