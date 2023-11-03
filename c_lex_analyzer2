@@ -1,0 +1,33 @@
+\".*\" {if(!COMMENT)printf("\n%s is a STRING",yytext);}
+[0-9]+ {if(!COMMENT) printf("\n%s is a NUMBER ",yytext);}
+\{ {if(!COMMENT) printf("\nBLOCK BEGINS");}
+\} {if(!COMMENT) printf("\nBLOCK ENDS");}
+\) {if(!COMMENT);printf("\n)");}
+= {if(!COMMENT) printf("\n%s is an ASSIGNMENT OPERATOR",yytext);}
+\<= |
+\>= |
+\< |
+\== |
+\!= |
+\> {if(!COMMENT) printf("\n%s is a RELATIONAL OPERATOR",yytext);}
+\, |
+\; {if(!COMMENT) printf("\n%s is a SEPERATOR",yytext);}
+%%
+int main(int argc, char **argv)
+{
+FILE *file;
+file=fopen("input.c","r");
+if(!file)
+{
+printf("could not open the file");
+exit(0);
+}
+yyin=file;
+yylex();
+printf("\n");
+return(0);
+}
+int yywrap()
+{
+return(1);
+}
